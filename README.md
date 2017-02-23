@@ -1,8 +1,15 @@
 # Mitch Compression Algorithm
 ## Preface
 This compression algoithm is written in C with only standard libraries and is intended for use on text files only. I started to learn C in January of 2017 and this is my attempt at a, not very useful, compression algorithm. On average the compression size of the algorithm is around 70% - 85% of the regular file size. I know this is not the most optimized, logical or a realistic way to compress data but I wanted to try and make a text file compression algorithm.
+
+I noticed when looking at a text file in binary that the first 3 bits of information from the left was similar in many of the different bytes of information so this got me thinking about compressing that information.
 ## The Algorithm
-The program has 3 important information bytes when it is compressing files:
+The algorithm is quite simple:
+* First it starts to read the file character by character
+..* For each character the program looks at the first three bits of information from the left
+....* This ignores spaces (This is a special case which will be explained later on).
+....* If the pattern of the first three bits match it adds the last 5 bits to the queue to save
+....* If the pattern does not match, the current pattern is ended and a new pattern listening starts
 
 | Information Bits | Description |
 |:----------------:|:-----------:|
