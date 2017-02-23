@@ -6,10 +6,10 @@ I noticed when looking at a text file in binary that the first 3 bits of informa
 ## The Algorithm
 The algorithm is quite simple:
 * First it starts to read the file character by character
-..* For each character the program looks at the first three bits of information from the left
-....* This ignores spaces (This is a special case which will be explained later on).
-....* If the pattern of the first three bits match it adds the last 5 bits to the queue to save
-....* If the pattern does not match, the current pattern is ended and a new pattern listening starts
+⋅⋅* For each character the program looks at the first three bits of information from the left
+⋅⋅⋅⋅* This ignores spaces (This is a special case which will be explained later on).
+⋅⋅⋅⋅* If the pattern of the first three bits match it adds the last 5 bits to the queue to save
+⋅⋅⋅⋅* If the pattern does not match, the current pattern is ended and a new pattern listening starts
 
 | Information Bits | Description |
 |:----------------:|:-----------:|
