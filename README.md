@@ -6,12 +6,14 @@ I noticed when looking at a text file in binary that the first 3 bits of informa
 ## The Algorithm
 The algorithm is quite simple:
 * First it starts to read the file character by character
-  * For each character the program looks at the first three bits of information from the left
+  * For each character, the program looks at the first three bits of information from the left and save it as a pattern
     * This ignores spaces (This is a special case which will be explained later on).
-    * If the pattern of the first three bits match it adds the last 5 bits to the queue to save
-      * Within this part, it checks for more compression of the 5 bits passed in (any repeating) and trys to compress it more
-    * If the pattern does not match, the current pattern is ended and a new pattern listening starts
-      * It compresses the information that was matched up and starts a new matching process
+    * If the pattern of the first three bits match the current pattern, it adds the last 5 bits to the queue to save
+      * Within this part, it checks for more compression of the 5 bits passed in (any repeating) and tries to compress it more
+    * If the pattern does not match, the current pattern it is looking for is discard and replaced with the new pattern
+      * It compresses the information that was previously and starts a new matching process
+
+Details of the Information Bits:
 
 | Information Bits | Description |
 |:----------------:|:-----------:|
