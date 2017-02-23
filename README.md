@@ -4,11 +4,11 @@ This compression algoithm is written in C with only standard libraries and is in
 ## The Algorithm
 The program has 3 important information bytes when it is compressing files:
 
-| Information Byte | Description |
+| Information Bits | Description |
 |:----------------:|:-----------:|
-| Standard      | right-aligned | 
-| Individual      | centered      | 
-| Special | are neat      | 
+| Standard      | 3 Bytes. Store the information that is used to uncompress the file. For a more detailed explanation of the three bytes see below and figure 1.1 | 
+| Individual      | 1 Byte. An individual information byte is denoted with the check bit being 0. That means the program will just interpret the byte as an actual char and not something that has to be processed | 
+| Special | 1 Byte. Is denoted by the first byte having the FIRST and THIRD bit from the left set to 1. This means that the following byte of information is to be interpretted as it is written without any processing. | 
 
 ![alt tag](https://cloud.githubusercontent.com/assets/8935913/23272492/130c96a6-f9c1-11e6-9713-81ed332a029f.png)
 ###### Figure 1.1 - The Information Bytes
