@@ -41,6 +41,7 @@ void readFileToCompress(char * fileName) {
 	int currentBitCount;
 	int total = 0;l
 
+	//Open the read and write files
 	if ((filePtr = fopen(fileName, "r")) != NULL)
 	{
 		if ((fileWritePtr = fopen(strcat(fileName, ".mitch"), "wb")) == NULL)
@@ -51,9 +52,10 @@ void readFileToCompress(char * fileName) {
 		int ch = getc(filePtr);
 		int skip = 0;
 		int spaceRead = 0;
-
+	
+		//Loop through till the end of the file
 		while (ch != EOF) {
-			//char byte = (char)ch;
+			//Get the current Byte
 			char byte = tolower((char)ch);
 
 			spaceRead = 0;
@@ -96,7 +98,8 @@ void readFileToCompress(char * fileName) {
 					} 
 					current++;
 				}
-
+				
+				//Check for the space first 3 bit pattern
 				if (((byte >> 7) & 0x01) == 0 && ((byte >> 6) & 0x01) == 0 && ((byte >> 5) & 0x01) == 1) {
 					//The pattern mathes a space pattern
 					if (((byte >> 4) & 0x01) == 0 &&
@@ -109,13 +112,15 @@ void readFileToCompress(char * fileName) {
 							reading = 1;
 					}
 				}
-
+				
+				//If we hit the limit of what we can store, restart the compression
 				if (currentAmountOfChars >= 254) {
 					spaceRead = 0;
 					reading = 0;			
 				}			
 			}
-
+			
+			//If we are still reading in new charcters, store them
 			if (reading == 1) {
 				int i;
 				for (i = 4; 0 <= i; i--) {
@@ -149,6 +154,8 @@ void readFileToCompress(char * fileName) {
 				ch = getc(filePtr);
 			}
 		}
+		
+		//Compress the final string of information
 		compress(&information, currentAmountOfChars, currentBitCount, pattern, fileWritePtr);
 
 		fclose(filePtr);
@@ -292,7 +299,8 @@ void compress(char ** pointerPassed, int amount, int totalBitCount, int * patter
 		//Allocate the required amount of space + 50 buffer room
 		information = (char *)malloc(total);
 		memset(information, 0, sizeof(char));
-
+		
+		//Set all bits to 0
 		for (int x = 0; x < total; x++) {
 			for (int i = 7; i >= 0; i--) {
 				information[x] = 0 << i;
@@ -333,25 +341,25 @@ void compress(char ** pointerPassed, int amount, int totalBitCount, int * patter
 		//Condense the information depending on the above
 		switch(cTotal) {
 			case '0':
-				//printf("No bits are repeating\n");
+				//No repeating bits found
 				startingAmount = 0;
 				amountToSave = 5;
 				increment = 0;
 				break;
 			case '1':
-				//printf("1 Bit is repeating\n");
+				//1 Bit is repeating
 				increment = 1;
 				amountToSave = 4;
 				startingAmount = 1;
 				break;
 			case '2':
-				//printf("2 Bit is repeating\n");
+				//2 Bit is repeating
 				increment = 2;
 				amountToSave = 3;
 				startingAmount = 2;
 				break;
 			case '3':
-				//printf("3 Bit is repeating\n");
+				//3 Bit is repeating
 				increment = 3;
 				amountToSave = 2;
 				startingAmount = 3;
@@ -483,6 +491,7 @@ void compress(char ** pointerPassed, int amount, int totalBitCount, int * patter
 	}
 }
 
+//Converts the decminal number to a binary number
 char * decToBin(long int decimalNumber) {
 	long int remainder,quotient;
 
@@ -534,7 +543,8 @@ void trimRight(char ** cPtrPtr, int iNumChars) {
 void readFileToExpand(char * fileName) {
 	FILE * filePtr;
 	FILE * fileWritePtr;
-
+	
+	//Open the read and write files
 	if ((filePtr = fopen(fileName, "rb")) != NULL)
 	{
 		trimRight(&fileName, 6);
@@ -546,7 +556,8 @@ void readFileToExpand(char * fileName) {
 		int ch = getc(filePtr);
 		int skip = 0;
 		int readNextByteAsChar = 0;
-
+		
+		//While we have not hit the end of the file
 		while (ch != EOF) {
 			char byte = (char)ch;
 
@@ -682,7 +693,6 @@ void readFileToExpand(char * fileName) {
 							) {
 							fprintf(fileWritePtr, "%c", ' ');
 						} else {
-							//printf(" = %c\n", outputChar);
 							fprintf(fileWritePtr, "%c", outputChar);
 						}
 					}
