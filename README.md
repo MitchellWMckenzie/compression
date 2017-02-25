@@ -23,3 +23,6 @@ Details of the Information Bits:
 
 ![alt tag](https://cloud.githubusercontent.com/assets/8935913/23272492/130c96a6-f9c1-11e6-9713-81ed332a029f.png)
 ###### Figure 1.1 - The Information Bytes
+
+## Conclusion
+The purpose of the program was to develop my skill in C and work in the Binary and Bit level of data. Overall the project might not be the most optimized but it was a great learning experience
